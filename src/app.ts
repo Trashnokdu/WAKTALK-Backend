@@ -6,6 +6,7 @@ import * as json from 'koa-json';
 import * as logger from 'koa-logger';
 import 'reflect-metadata';
 import router from './server';
+import sequelize from '../sequelize';
 
 const app = new Koa();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.use(bodyParser());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await sequelize.authenticate();
   console.log(`🚀 App listening on the port ${port}`);
 });
