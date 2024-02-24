@@ -1,7 +1,7 @@
 import { BaseContext } from 'koa';
 
-export default class IndexController {
-  public static async getIndex(ctx: BaseContext) {
+export default class ArtistController {
+  public static async Login(ctx: BaseContext) {
     ctx.status = 200;
     ctx.body = {
       happy: 'hacking',
