@@ -10,7 +10,6 @@ import sequelize from '../sequelize';
 
 const app = new Koa();
 const port = process.env.PORT || 3000;
-
 app.use(helmet());
 app.use(cors());
 app.use(json());
