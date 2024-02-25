@@ -108,4 +108,27 @@ export default class CreatorController {
       }
     }
   }
+  public static async Index(ctx: Context & { request: any }) {
+    try {
+      const creators = await Creator.findAll();
+      ctx.body = creators.map((data) => {
+        return {
+          id: data.userId,
+          name: data.displayName,
+          color: data.color,
+          instargramId: data.instargramId,
+          afreecaId: data.afreecaId,
+          youtubeId: data.youtubeId,
+          twitterId: data.twitterId,
+        };
+      });
+    } catch (err) {
+      console.log(err);
+      ctx.status = 500;
+      return (ctx.body = {
+        code: 'COMMON_ERROR',
+        message: '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요',
+      });
+    }
+  }
 }

@@ -14,6 +14,7 @@ const router = new Router();
 
 router.get('/', IndexController.getIndex);
 router.post('/user/login', UserController.Login);
+router.get('/creator', CreatorController.Index);
 router.post('/creator/signup', CreatorController.SignUp);
 router.post('/creator/signin', CreatorController.SignIn);
 
