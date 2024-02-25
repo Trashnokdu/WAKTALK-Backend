@@ -111,4 +111,32 @@ export default class UserController {
         });
       });
   }
+  public static async UpdateToken(ctx: Context & { request: any }) {
+    const { refresh_token } = ctx.request.body;
+    if (!refresh_token) {
+      ctx.status = 400;
+      return (ctx.body = {
+        code: 'INVALID_REQUIRED_PARAM',
+        message: '필수 파라미터가 누락되었습니다.',
+      });
+    } else {
+      await axios
+        .get(
+          `https://nid.naver.com/oauth2.0/token?grant_type=refresh_token&client_id=dA8eK17D33C_mskvQWqp&client_secret=${process.env.NAVER_SECRET}&refresh_token=${refresh_token}`,
+        )
+        .then((data) => {
+          ctx.status = 200;
+          ctx.body = {
+            access_token: data.data.access_token,
+          };
+        })
+        .catch(() => {
+          ctx.status = 401;
+          return (ctx.body = {
+            code: 'AUTH_FAILED',
+            message: '토큰이 유효하지않거나 만료되었습니다',
+          });
+        });
+    }
+  }
 }
