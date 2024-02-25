@@ -21,13 +21,17 @@ export default class UserController {
       )
       .then(async (data) => {
         if (!data.data.access_token) {
-          if (data.data.error === 'INVALID_REQUEST') {
+          if (
+            data.data.error == 'INVALID_REQUEST' ||
+            data.data.error == 'invalid_request'
+          ) {
             ctx.status = 401;
             return (ctx.body = {
               code: 'INVALID_CODE',
               message: '코드가 만료되었거나 유효하지않습니다',
             });
           } else {
+            console.log(data);
             ctx.status = 500;
             return (ctx.body = {
               code: 'COMMON_ERROR',
@@ -99,7 +103,7 @@ export default class UserController {
           });
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
         ctx.status = 500;
         return (ctx.body = {
           code: 'COMMON_ERROR',
