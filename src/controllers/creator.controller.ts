@@ -129,6 +129,29 @@ export default class CreatorController {
         code: 'COMMON_ERROR',
         message: '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요',
       });
+  public static async UpdateToken(ctx: Context & { request: any }) {
+    const { refresh_token } = ctx.request.body;
+    if (!refresh_token) {
+      ctx.status = 400;
+      return (ctx.body = {
+        code: 'INVALID_REQUIRED_PARAM',
+        message: '필수 파라미터가 누락되었습니다.',
+      });
+    } else {
+      try {
+        const verify = <any>jwt.verify(refresh_token, `${process.env.SECRET}`);
+        const newToken = jwt.sign({ id: verify.id }, `${process.env.SECRET}`);
+        ctx.status = 200;
+        ctx.body = {
+          access_token: newToken,
+        };
+      } catch (error) {
+        ctx.status = 401;
+        return (ctx.body = {
+          code: 'AUTH_FAILED',
+          message: '토큰이 유효하지않거나 만료되었습니다',
+        });
+      }
     }
   }
 }

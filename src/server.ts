@@ -17,5 +17,6 @@ router.post('/user/login', UserController.Login);
 router.get('/creator', CreatorController.Index);
 router.post('/creator/signup', CreatorController.SignUp);
 router.post('/creator/signin', CreatorController.SignIn);
+router.post('/creator/refresh', CreatorController.UpdateToken);
 
 export default router;
