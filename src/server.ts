@@ -4,6 +4,7 @@ import ArtistController from './controllers/creator.controller';
 import UserController from './controllers/user.controller';
 // import { AES, enc } from 'crypto-js';
 import AuthMiddleware from '../middleware/Auth';
+import CreatorAuthMiddleware from '../middleware/Auth';
 const router = new Router();
 
 // 현재로써는 전화번호를 사용할곳이 없기에 코드 아카이빙 해둡니다

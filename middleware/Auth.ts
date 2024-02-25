@@ -2,6 +2,43 @@ import { Context } from 'koa';
 import * as jwt from 'jsonwebtoken';
 import axios from 'axios';
 
+async function CreatorAuthMiddleware(ctx: Context & { request: any }, next) {
+  const parts = ctx.headers.authorization.split(' ');
+  if (!parts[1]) {
+    ctx.status = 401;
+    return (ctx.body = {
+      code: 'UNAUTHORIZED',
+      message: '인증이 필요한 서비스입니다',
+    });
+  }
+  try {
+    jwt.verify(parts[1], process.env.SECRET);
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError') {
+      ctx.status = 401;
+      return (ctx.body = {
+        code: 'UNAUTHORIZED',
+        message: '잘못된 토큰입니다',
+      });
+    } else if (err.name === 'TokenExpiredError') {
+      ctx.status = 401;
+      return (ctx.body = {
+        code: 'NEED_REFRESH',
+        message: '토큰이 만료되었습니다',
+      });
+    } else if (err.name === 'NotBeforeError') {
+      ctx.status = 401;
+      return (ctx.body = {
+        code: 'UNAUTHORIZED',
+        message: '잘못된 토큰입니다',
+      });
+    } else {
+      return (ctx.body = err);
+    }
+  }
+  await next();
+}
+
 const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
   const parts = ctx.headers.authorization.split(' ');
   if (!parts[1]) {
@@ -67,8 +104,8 @@ const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
         }
       }
     }
-    await next();
   }
+  await next();
 };
 
 export default AuthMiddleware;
