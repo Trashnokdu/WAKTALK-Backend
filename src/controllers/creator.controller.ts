@@ -129,6 +129,8 @@ export default class CreatorController {
         code: 'COMMON_ERROR',
         message: '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요',
       });
+    }
+  }
   public static async UpdateToken(ctx: Context & { request: any }) {
     const { refresh_token } = ctx.request.body;
     if (!refresh_token) {
