@@ -16,7 +16,7 @@ export class Creator extends Model<Creator> {
   userId: string;
 
   @Column({
-    type: DataType.STRING(100),
+    type: DataType.STRING(300),
     allowNull: false,
   })
   password: string;
