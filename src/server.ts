@@ -15,5 +15,6 @@ const router = new Router();
 router.get('/', IndexController.getIndex);
 router.post('/user/login', UserController.Login);
 router.post('/creator/signup', CreatorController.SignUp);
+router.post('/creator/signin', CreatorController.SignIn);
 
 export default router;
