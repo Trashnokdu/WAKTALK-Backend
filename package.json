@@ -8,9 +8,11 @@
   "dependencies": {
     "@koa/cors": "^5.0.0",
     "@types/crypto-js": "^4.2.2",
+    "@types/jsonwebtoken": "^9.0.5",
     "axios": "^1.6.7",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.0",
     "koa-bodyparser": "^4.4.1",
     "koa-helmet": "^7.0.2",

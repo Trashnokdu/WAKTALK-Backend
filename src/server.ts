@@ -1,21 +1,21 @@
 import * as Router from 'koa-router';
 import IndexController from './controllers/index.controller';
 import UserController from './controllers/user.controller';
-import { AES, enc } from 'crypto-js';
+import AuthMiddleware from '../middleware/Auth';
+import CreatorAuthMiddleware from '../middleware/Auth';
 import { Context } from 'koa';
 import CreatorController from './controllers/creator.controller';
 
 const router = new Router();
 
-const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
-  const decryptedBytes = AES.decrypt(ctx.request.body, process.env.SECRET);
-  const decrypted = decryptedBytes.toString(enc.Utf8);
-  ctx.Phone = decrypted;
-  await next();
-};
+// 현재로써는 전화번호를 사용할곳이 없기에 코드 아카이빙 해둡니다
+// const decryptedBytes = AES.decrypt(ctx.request.body, process.env.SECRET);
+// const decrypted = decryptedBytes.toString(enc.Utf8);
+// ctx.Phone = decrypted;
 
 router.get('/', IndexController.getIndex);
-router.post('/user/login', AuthMiddleware, UserController.Login);
+router.get('/creator', AuthMiddleware, ArtistController.Login);
+router.post('/user/login', UserController.Login);
 router.post('/creator/signup', CreatorController.SignUp);
 
 export default router;
