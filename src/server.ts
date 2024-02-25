@@ -1,9 +1,9 @@
 import * as Router from 'koa-router';
 import IndexController from './controllers/index.controller';
-import ArtistController from './controllers/artist.controller';
 import UserController from './controllers/user.controller';
 import { AES, enc } from 'crypto-js';
 import { Context } from 'koa';
+import CreatorController from './controllers/creator.controller';
 
 const router = new Router();
 
@@ -15,7 +15,7 @@ const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
 };
 
 router.get('/', IndexController.getIndex);
-router.get('/artist', ArtistController.Login);
 router.post('/user/login', AuthMiddleware, UserController.Login);
+router.post('/creator/signup', CreatorController.SignUp);
 
 export default router;
