@@ -21,10 +21,10 @@ export default class UserController {
       )
       .then(async (data) => {
         if (!data.data.access_token) {
-          if (data.data.error === 'invalid_request') {
+          if (data.data.error === 'INVALID_REQUEST') {
             ctx.status = 401;
             return (ctx.body = {
-              code: 'INVAILD_CODE',
+              code: 'INVALID_CODE',
               message: '코드가 만료되었거나 유효하지않습니다',
             });
           } else {
@@ -48,10 +48,10 @@ export default class UserController {
               where: { id: data.data.response.id },
             });
             if (user) {
-              ctx.status = 409;
               return (ctx.body = {
-                code: 'DUPLICATED_ID',
-                message: 'ID에 중복이 발생하였습니다.',
+                access_token: access_token,
+                refresh_token: refresh_token,
+                expires_in: expires_in,
               });
             } else {
               const nickname = await User.findOne({
