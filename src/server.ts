@@ -3,7 +3,6 @@ import IndexController from './controllers/index.controller';
 import UserController from './controllers/user.controller';
 import AuthMiddleware from '../middleware/Auth';
 import CreatorAuthMiddleware from '../middleware/Auth';
-import { Context } from 'koa';
 import CreatorController from './controllers/creator.controller';
 
 const router = new Router();
@@ -14,7 +13,6 @@ const router = new Router();
 // ctx.Phone = decrypted;
 
 router.get('/', IndexController.getIndex);
-router.get('/creator', AuthMiddleware, ArtistController.Login);
 router.post('/user/login', UserController.Login);
 router.post('/creator/signup', CreatorController.SignUp);
 

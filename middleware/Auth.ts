@@ -2,6 +2,7 @@ import { Context } from 'koa';
 import * as jwt from 'jsonwebtoken';
 import axios from 'axios';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function CreatorAuthMiddleware(ctx: Context & { request: any }, next) {
   const parts = ctx.headers.authorization.split(' ');
   if (!parts[1]) {
