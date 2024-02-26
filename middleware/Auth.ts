@@ -56,12 +56,20 @@ const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
       message: '올바르지 않은 요청입니다',
     });
   }
-  if (ctx.request.query.isCreator == 'true') {
+  if (parts[1].startsWith('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')) {
     try {
-      jwt.verify(parts[1], process.env.SECRET);
+      const token_data = <any>jwt.verify(parts[1], process.env.SECRET);
+      if (token_data.type == 'refresh_token') {
+        ctx.status = 401;
+        return (ctx.body = {
+          code: 'UNAUTHORIZED',
+          message: '잘못된 토큰입니다. access_token을 사용해주세요',
+        });
+      }
     } catch (err) {
       if (err.name === 'JsonWebTokenError') {
         ctx.status = 401;
+        console.log(err);
         return (ctx.body = {
           code: 'UNAUTHORIZED',
           message: '잘못된 토큰입니다',
@@ -82,7 +90,7 @@ const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
         return (ctx.body = err);
       }
     }
-  } else {
+  } else if (parts[1].startsWith('AAAAO')) {
     {
       try {
         await axios.get('https://openapi.naver.com/v1/nid/verify', {
@@ -105,6 +113,12 @@ const AuthMiddleware = async (ctx: Context & { request: any }, next) => {
         }
       }
     }
+  } else {
+    ctx.status = 401;
+    return (ctx.body = {
+      code: 'UNAUTHORIZED',
+      message: '잘못된 토큰입니다',
+    });
   }
   await next();
 };

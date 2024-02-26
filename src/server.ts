@@ -14,7 +14,11 @@ const router = new Router();
 
 router.get('/', IndexController.getIndex);
 router.post('/user/login', UserController.Login);
+router.post('/user/refresh', UserController.UpdateToken);
+router.get('/creator', AuthMiddleware, CreatorController.Index);
+router.get('/creator/signup/data', CreatorController.SignUpData);
 router.post('/creator/signup', CreatorController.SignUp);
 router.post('/creator/signin', CreatorController.SignIn);
+router.post('/creator/refresh', CreatorController.UpdateToken);
 
 export default router;
