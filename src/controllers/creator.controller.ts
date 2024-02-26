@@ -156,4 +156,31 @@ export default class CreatorController {
       }
     }
   }
+  public static async SignUpData(ctx: Context & { request: any }) {
+    const uuid = ctx.query.uuid;
+    if (!uuid) {
+      ctx.status = 400;
+      return (ctx.body = {
+        code: 'INVALID_REQUIRED_PARAM',
+        message: '필수 파라미터가 누락되었습니다.',
+      });
+    } else {
+      const creator = await WaitingCreator.findOne({
+        where: { uuid: uuid },
+      });
+      if (!creator) {
+        ctx.status = 403;
+        return (ctx.body = {
+          code: 'INVALID_UUID',
+          message: '잘못된 UUID값입니다',
+        });
+      }
+      ctx.status = 200;
+      ctx.body = {
+        id: creator.classificationId,
+        name: creator.displayName,
+        color: creator.color,
+      };
+    }
+  }
 }
