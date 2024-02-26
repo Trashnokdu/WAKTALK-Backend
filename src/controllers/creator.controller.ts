@@ -85,11 +85,15 @@ export default class CreatorController {
             message: '아이디 혹은 패스워드가 일치하지 않습니다',
           });
         }
-        const accessToken = jwt.sign({ id: user_id }, `${process.env.SECRET}`, {
-          expiresIn: '1h',
-        });
+        const accessToken = jwt.sign(
+          { id: user_id, type: 'access_token' },
+          `${process.env.SECRET}`,
+          {
+            expiresIn: '1h',
+          },
+        );
         const refreshToken = jwt.sign(
-          { id: user_id },
+          { id: user_id, type: 'refresh_token' },
           `${process.env.SECRET}`,
           { expiresIn: '5y' },
         );
@@ -142,7 +146,10 @@ export default class CreatorController {
     } else {
       try {
         const verify = <any>jwt.verify(refresh_token, `${process.env.SECRET}`);
-        const newToken = jwt.sign({ id: verify.id }, `${process.env.SECRET}`);
+        const newToken = jwt.sign(
+          { id: verify.id, type: 'access_token' },
+          `${process.env.SECRET}`,
+        );
         ctx.status = 200;
         ctx.body = {
           access_token: newToken,
