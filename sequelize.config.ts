@@ -8,9 +8,9 @@ const config: SequelizeOptions = {
   port: 3306,
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  database: 'waktalk',
+  database: process.env.MYSQL_DB,
   pool: {
-    max: 10,
+    max: 20,
     min: 0,
     acquire: 30000,
     idle: 10000,

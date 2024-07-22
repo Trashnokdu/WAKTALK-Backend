@@ -38,28 +38,4 @@ export class Creator extends Model<Creator> {
     allowNull: false,
   })
   displayName: string;
-
-  @Column({
-    type: DataType.STRING(100),
-    allowNull: true,
-  })
-  instargramId: string;
-
-  @Column({
-    type: DataType.STRING(100),
-    allowNull: true,
-  })
-  afreecaId: string;
-
-  @Column({
-    type: DataType.STRING(100),
-    allowNull: true,
-  })
-  youtubeId: string;
-
-  @Column({
-    type: DataType.STRING(100),
-    allowNull: true,
-  })
-  twitterId: string;
 }

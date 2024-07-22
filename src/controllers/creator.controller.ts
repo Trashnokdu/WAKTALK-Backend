@@ -75,10 +75,7 @@ export default class CreatorController {
         }
         const salt = userdata.salt;
         const HashPassword = CryptoJS.SHA512(pw + salt).toString();
-        const fullcheckUserData = await Creator.findOne({
-          where: { userId: user_id, password: HashPassword },
-        });
-        if (!fullcheckUserData) {
+        if (HashPassword === userdata.password) {
           ctx.status = 401;
           return (ctx.body = {
             code: 'UNAUTHORIZED',
@@ -120,10 +117,6 @@ export default class CreatorController {
           id: data.userId,
           name: data.displayName,
           color: data.color,
-          instargramId: data.instargramId,
-          afreecaId: data.afreecaId,
-          youtubeId: data.youtubeId,
-          twitterId: data.twitterId,
         };
       });
     } catch (err) {
